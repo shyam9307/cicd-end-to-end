@@ -1,10 +1,32 @@
-FROM python:3
-RUN pip install django==3.2
+FROM python:3.11-alpine
 
+WORKDIR /app
+
+# Install system dependencies
+RUN apk add --no-cache gcc musl-dev linux-headers
+
+# Copy full project
 COPY . .
 
-RUN python manage.py migrate
+# Install Python dependencies (inline)
+RUN pip install --no-cache-dir django
+
 EXPOSE 8000
-CMD ["python","manage.py","runserver","0.0.0.0:8000"]
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+
+
+
+
+
+# FROM python:3
+# RUN pip install django==3.2
+
+# COPY . .
+
+# RUN python manage.py migrate
+# EXPOSE 8000
+# CMD ["python","manage.py","runserver","0.0.0.0:8000"]
 
 
